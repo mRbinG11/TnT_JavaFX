@@ -15,7 +15,8 @@ public class XOButton extends Button {
 	Image Oimg=new Image(getClass().getResourceAsStream("/img/o.png"),46,46,true,true);
 	ImageView Oiv=new ImageView(Oimg);
 	
-	byte status=0;
+	static byte status=1;
+	boolean buttonClicked=false;
 	
 	public XOButton() {
 		super();
@@ -24,16 +25,17 @@ public class XOButton extends Button {
 		this.setMinSize(50, 50);
 		this.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae) {
-				status++;
-				status%=3;
-				switch(status) {
-				case 0: setGraphic(null); 
-						break;
-				case 1: setGraphic(Xiv); 
-						break;
-				case 2: setGraphic(Oiv); 
-						break;
+				if(!buttonClicked)	buttonClicked=true;
+				else	buttonClicked=false;
+				if(buttonClicked) {
+					switch(status) {
+					case 1: setGraphic(Xiv); 
+							break;
+					case 0: setGraphic(Oiv); 
+							break;
+					}
 				}
+				else setGraphic(null);
 				System.out.println(status);
 			}
 		});

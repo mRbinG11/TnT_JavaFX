@@ -1,10 +1,15 @@
 package application;
 	
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -17,6 +22,7 @@ import javafx.scene.text.Text;
 
 
 public class Main extends Application {
+	static Text turnlbl=new Text("X's Turn");
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("T 'n' T");
@@ -149,15 +155,34 @@ public class Main extends Application {
 		Separator sp=new Separator();
 		sp.setMinWidth(560);
 		
-		Text turnlbl=new Text("X's Turn");
+		Button end = new Button();
+		end.setText("End Turn");
+	
 		Text timer=new Text();
 		
-		fp.getChildren().addAll(mb,mgp,sp,turnlbl,timer);
+		fp.getChildren().addAll(mb,mgp,sp,turnlbl,timer,end);
+		
+		
+
+		end.setAlignment(Pos.CENTER_RIGHT);
+		end.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae) {
+				XOButton.status++;
+				XOButton.status%=2;
+				switch(XOButton.status) {
+				case 1: turnlbl.setText("X's Turn");
+						break;
+				case 0: turnlbl.setText("O's Turn");
+						break;
+				}
+			}
+		});
 		
 		Scene scene=new Scene(fp);
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		mgp.requestFocus();
 	}
 	
 	public static void main(String[] args) {
