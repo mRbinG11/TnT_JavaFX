@@ -145,11 +145,17 @@ public class Main extends Application {
 					}
 			}
 		
+		Button end = new Button();
+		end.setText("End Turn");
+	    end.setDefaultButton(true);
+	    end.setDisable(true);
+	    
 		ngame.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae) {
 				for(int i=0;i<81;i++)
 					btns[i].reset();
 				mgp.requestFocus();
+				end.setDisable(true);
 			}
 		});
 		
@@ -166,15 +172,50 @@ public class Main extends Application {
 		Separator sp=new Separator();
 		sp.setMinWidth(560);
 		
-		Button end = new Button();
-		end.setText("End Turn");
-	    end.setDefaultButton(true);
+		
 		Text timer=new Text();
 		
 		fp.getChildren().addAll(mb,mgp,sp,turnlbl,timer,end);
 		
-		
-
+		for(int i=0;i<81;i++) {
+			final int temp=new Integer(i);
+			btns[i].setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent ae) {
+					if(!btns[temp].buttonClicked&&!btns[temp].disable)	btns[temp].buttonClicked=true;
+					if(btns[temp].buttonClicked) {
+						
+						end.setDisable(false);
+						
+						for(int k=(temp/9)*9;k<(temp/9)*9+9;k++)
+						btns[k].setStyle(null);
+						for(int k=0;k<81;k++)
+							if(k<(temp-(temp/9)*9)*9||k>=((temp-(temp/9)*9)*9)+9)
+								btns[k].disable=true;
+							else btns[k].disable=false;
+						for(int k=(temp-(temp/9)*9)*9;k<((temp-(temp/9)*9)*9)+9;k++)
+						btns[k].setStyle("-fx-background-color: green;");
+					
+						switch(XOButton.status) {
+						case 1: btns[temp].setGraphic(btns[temp].Xiv); 
+								btns[temp].symbol='x';
+								break;
+						case 0: btns[temp].setGraphic(btns[temp].Oiv);
+								btns[temp].symbol='o';
+								break;
+						}
+						
+						for(int j=0;j<81;j++ )
+							if( j!=temp&&btns[j].buttonClicked&&!btns[j].fixed) {
+								btns[j].symbol=' ';
+								btns[j].setGraphic(null);
+							}
+							
+					}
+					
+					
+				}
+			});
+		}
 		end.setAlignment(Pos.CENTER_RIGHT);
 		end.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae) {
@@ -186,6 +227,10 @@ public class Main extends Application {
 				case 0: turnlbl.setText("O's Turn");
 						break;
 				}
+				for(int i=0;i<81;i++)
+					if(((XOButton.status==0)&&(btns[i].symbol=='x'))||((XOButton.status==1)&&(btns[i].symbol=='o')))
+							btns[i].fixed=true;
+				end.setDisable(true);
 			}
 		});
 		
