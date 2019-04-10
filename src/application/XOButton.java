@@ -40,4 +40,9 @@ public class XOButton extends Button {
 			}
 		});
 	}
+	public void reset() {
+		status=1;
+		buttonClicked=false;
+		setGraphic(null);
+	}
 }

@@ -23,6 +23,8 @@ import javafx.scene.text.Text;
 
 public class Main extends Application {
 	static Text turnlbl=new Text("X's Turn");
+	static FlowPane fp=new FlowPane();
+	static Scene scene=new Scene(fp);
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("T 'n' T");
@@ -30,7 +32,7 @@ public class Main extends Application {
 		Image icon=new Image(getClass().getResourceAsStream("/img/tic-tac-toe.png"));
 		primaryStage.getIcons().add(icon);
 		
-		FlowPane fp=new FlowPane();
+		
 		fp.setMaxSize(500, 600);
 		fp.setPadding(new Insets(0,0,0,0));
 		
@@ -40,6 +42,7 @@ public class Main extends Application {
 		MenuItem lgame=new MenuItem("Load Game");
 		MenuItem sgame=new MenuItem("Save Game");
 		MenuItem exit=new MenuItem("Exit");
+		
 		fmenu.getItems().addAll(ngame,lgame,sgame,new SeparatorMenuItem(),exit);
 		mb.setMinWidth(560);
 		mb.getMenus().addAll(fmenu);
@@ -142,6 +145,14 @@ public class Main extends Application {
 					}
 			}
 		
+		ngame.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae) {
+				for(int i=0;i<81;i++)
+					btns[i].reset();
+				mgp.requestFocus();
+			}
+		});
+		
 		mgp.add(gp1, 0, 0);
 		mgp.add(gp2, 1, 0);
 		mgp.add(gp3, 2, 0);
@@ -157,7 +168,7 @@ public class Main extends Application {
 		
 		Button end = new Button();
 		end.setText("End Turn");
-	
+	    end.setDefaultButton(true);
 		Text timer=new Text();
 		
 		fp.getChildren().addAll(mb,mgp,sp,turnlbl,timer,end);
@@ -178,7 +189,7 @@ public class Main extends Application {
 			}
 		});
 		
-		Scene scene=new Scene(fp);
+		
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
