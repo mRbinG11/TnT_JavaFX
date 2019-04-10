@@ -15,11 +15,12 @@ public class XOButton extends Button {
 	Image Oimg=new Image(getClass().getResourceAsStream("/img/o.png"),46,46,true,true);
 	ImageView Oiv=new ImageView(Oimg);
 	
+	static boolean game=false;
+	static int lastPlayed=-1;
+	static int lastTurnPlayed=-1;
 	static byte status=1;
-	boolean buttonClicked=false;
 	boolean fixed =false;
 	char symbol;
-	int group;
 	boolean disable=false;
 	
 	public XOButton() {
@@ -30,9 +31,10 @@ public class XOButton extends Button {
 	
 	}
 	public void reset() {
-		status=1;
-		buttonClicked=false;
+		
 		setGraphic(null);
 		setStyle(null);
+		disable=false;
+		
 	}
 }

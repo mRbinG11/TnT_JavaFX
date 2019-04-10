@@ -154,6 +154,9 @@ public class Main extends Application {
 			public void handle(ActionEvent ae) {
 				for(int i=0;i<81;i++)
 					btns[i].reset();
+				XOButton.status=1;
+				XOButton.game=false;
+				XOButton.lastPlayed=XOButton.lastTurnPlayed=-1;
 				mgp.requestFocus();
 				end.setDisable(true);
 			}
@@ -181,20 +184,39 @@ public class Main extends Application {
 			final int temp=new Integer(i);
 			btns[i].setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent ae) {
-					if(!btns[temp].buttonClicked&&!btns[temp].disable)	btns[temp].buttonClicked=true;
-					if(btns[temp].buttonClicked) {
+					
+					
+					if(!btns[temp].disable&&!btns[temp].fixed) {
 						
 						end.setDisable(false);
 						
-						for(int k=(temp/9)*9;k<(temp/9)*9+9;k++)
-						btns[k].setStyle(null);
+						if(XOButton.lastPlayed!=-1) {
+							for(int k=(XOButton.lastPlayed-(XOButton.lastPlayed/9)*9)*9;k<(XOButton.lastPlayed-(XOButton.lastPlayed/9)*9)*9+9;k++)
+								btns[k].setStyle(null);
+							btns[XOButton.lastPlayed].symbol=' ';
+							btns[XOButton.lastPlayed].setGraphic(null);
+						}
+						
+						if(XOButton.lastTurnPlayed!=-1)
+							for(int k=(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9;k<((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9;k++)
+								btns[k].setStyle("-fx-background-color: green;");
+						
+						/*if(!XOButton.game) {
+						
+						
 						for(int k=0;k<81;k++)
-							if(k<(temp-(temp/9)*9)*9||k>=((temp-(temp/9)*9)*9)+9)
+							if((k<(temp-(temp/9)*9)*9||k>=((temp-(temp/9)*9)*9)+9))
 								btns[k].disable=true;
 							else btns[k].disable=false;
+						}*/
+							
+							
+							
 						for(int k=(temp-(temp/9)*9)*9;k<((temp-(temp/9)*9)*9)+9;k++)
-						btns[k].setStyle("-fx-background-color: green;");
-					
+							btns[k].setStyle("-fx-background-color: red;");
+						
+						
+						
 						switch(XOButton.status) {
 						case 1: btns[temp].setGraphic(btns[temp].Xiv); 
 								btns[temp].symbol='x';
@@ -203,12 +225,10 @@ public class Main extends Application {
 								btns[temp].symbol='o';
 								break;
 						}
+						XOButton.lastPlayed=temp;
 						
-						for(int j=0;j<81;j++ )
-							if( j!=temp&&btns[j].buttonClicked&&!btns[j].fixed) {
-								btns[j].symbol=' ';
-								btns[j].setGraphic(null);
-							}
+								
+							
 							
 					}
 					
@@ -227,10 +247,26 @@ public class Main extends Application {
 				case 0: turnlbl.setText("O's Turn");
 						break;
 				}
-				for(int i=0;i<81;i++)
-					if(((XOButton.status==0)&&(btns[i].symbol=='x'))||((XOButton.status==1)&&(btns[i].symbol=='o')))
-							btns[i].fixed=true;
+				XOButton.lastTurnPlayed=XOButton.lastPlayed;
+				btns[XOButton.lastTurnPlayed].fixed=true;
+				
+				for(int k=(XOButton.lastTurnPlayed/9)*9;k<((XOButton.lastTurnPlayed/9)*9)+9;k++)
+					btns[k].setStyle(null);
+				for(int k=(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9;k<((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9;k++)
+					btns[k].setStyle("-fx-background-color: green;");
+				
+				for(int k=0;k<81;k++)
+					if((k<(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9||k>=((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9))
+						btns[k].disable=true;
+					else {
+						System.out.println(k);
+						btns[k].disable=false;
+					}
+				
 				end.setDisable(true);
+				XOButton.game=true;
+				XOButton.lastPlayed=-1;
+				btns[XOButton.lastTurnPlayed].requestFocus();
 			}
 		});
 		
