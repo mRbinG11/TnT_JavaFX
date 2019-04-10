@@ -31,7 +31,8 @@ public class XOButton extends Button {
 	
 	}
 	public void reset() {
-		
+		symbol=' ';
+		fixed=false;
 		setGraphic(null);
 		setStyle(null);
 		disable=false;

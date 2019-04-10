@@ -19,7 +19,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-
+/*import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.net.URL;*/
 
 public class Main extends Application {
 	static Text turnlbl=new Text("X's Turn");
@@ -32,7 +34,11 @@ public class Main extends Application {
 		Image icon=new Image(getClass().getResourceAsStream("/img/tic-tac-toe.png"));
 		primaryStage.getIcons().add(icon);
 		
-		
+	/*	final URL resource = getClass().getResource("/application/Mahalo x DLMT - So Cold (feat. Lily Denning).mp3");
+	    final Media media = new Media(resource.toString());
+	    final MediaPlayer mediaPlayer = new MediaPlayer(media);
+	    mediaPlayer.play();*/
+	    
 		fp.setMaxSize(500, 600);
 		fp.setPadding(new Insets(0,0,0,0));
 		
@@ -201,15 +207,6 @@ public class Main extends Application {
 							for(int k=(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9;k<((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9;k++)
 								btns[k].setStyle("-fx-background-color: green;");
 						
-						/*if(!XOButton.game) {
-						
-						
-						for(int k=0;k<81;k++)
-							if((k<(temp-(temp/9)*9)*9||k>=((temp-(temp/9)*9)*9)+9))
-								btns[k].disable=true;
-							else btns[k].disable=false;
-						}*/
-							
 							
 							
 						for(int k=(temp-(temp/9)*9)*9;k<((temp-(temp/9)*9)*9)+9;k++)
@@ -258,10 +255,9 @@ public class Main extends Application {
 				for(int k=0;k<81;k++)
 					if((k<(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9||k>=((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9))
 						btns[k].disable=true;
-					else {
-						System.out.println(k);
+					else 
 						btns[k].disable=false;
-					}
+					
 				
 				end.setDisable(true);
 				XOButton.game=true;
