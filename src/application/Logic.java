@@ -7,7 +7,7 @@ public class Logic {
 	
 	static void set() {
 		for(int i=0;i<9;i++)
-			won[i]=-1;
+			won[i]=3;
 	}
 	static void result(int x,boolean victoryCheck) {
 		if(victoryCheck) {
@@ -33,7 +33,7 @@ public class Logic {
 			if((move%3==0&&!victoryCheck)||((move/9)%3==0&&victoryCheck)) {
 				
 				for(int i=0;i<3;i++)
-					if(((Main.btns[startGridPos+i*3].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[i*3]!=won[move/9])||won[move/9]==-1)&&victoryCheck)) {
+					if(((Main.btns[startGridPos+i*3].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[i*3]!=won[move/9])||won[move/9]==3)&&victoryCheck)) {
 						check=false;
 						break;
 					}
@@ -45,7 +45,7 @@ public class Logic {
 			check=true;
 			if(((move-1)%3==0&&!victoryCheck)||((move/9-1)%3==0)&&victoryCheck) {
 				for(int i=0;i<3;i++) 
-					if(((Main.btns[startGridPos+1+i*3].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[1+i*3]!=won[move/9])||won[move/9]==-1)&&victoryCheck)) {
+					if(((Main.btns[startGridPos+1+i*3].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[1+i*3]!=won[move/9])||won[move/9]==3)&&victoryCheck)) {
 						check=false;
 						break;
 					}
@@ -57,7 +57,7 @@ public class Logic {
 			check=true;
 			if(((move-2)%3==0&&!victoryCheck)||((move/9-2)%3==0&&victoryCheck)) {
 				for(int i=0;i<3;i++) 
-					if(((Main.btns[startGridPos+2+i*3].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[2+i*3]!=won[move/9])||won[move/9]==-1)&&victoryCheck)) {
+					if(((Main.btns[startGridPos+2+i*3].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[2+i*3]!=won[move/9])||won[move/9]==3)&&victoryCheck)) {
 						check=false;
 						break;
 					}
@@ -69,7 +69,7 @@ public class Logic {
 			check=true;
 			if((move<startGridPos+3&&!victoryCheck)||(move/9<startGridPos+3&&victoryCheck)) {
 				for(int i=0;i<3;i++)
-					if(((Main.btns[startGridPos+i].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[i]!=won[move/9])||won[move/9]==-1)&&victoryCheck)) {
+					if(((Main.btns[startGridPos+i].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[i]!=won[move/9])||won[move/9]==3)&&victoryCheck)) {
 						check=false;
 						break;
 					}
@@ -81,7 +81,7 @@ public class Logic {
 			check=true;
 			if((move<startGridPos+6&&move>=startGridPos+3&&!victoryCheck)||(move/9<startGridPos+6&&move/9>=startGridPos+3&&victoryCheck)) {
 				for(int i=0;i<3;i++)
-					if(((Main.btns[startGridPos+3+i].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[i+3]!=won[move/9])||won[move/9]==-1)&&victoryCheck)) {
+					if(((Main.btns[startGridPos+3+i].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[i+3]!=won[move/9])||won[move/9]==3)&&victoryCheck)) {
 						check=false;
 						break;
 					}
@@ -93,7 +93,7 @@ public class Logic {
 			check=true;
 			if((move<startGridPos+9&&move>=startGridPos+6&&!victoryCheck)||(move/9<startGridPos+9&&move/9>=startGridPos+6&&victoryCheck)) {
 				for(int i=0;i<3;i++)
-					if(((Main.btns[startGridPos+6+i].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[i+6]!=won[move/9])||won[move/9]==-1)&&victoryCheck)) {
+					if(((Main.btns[startGridPos+6+i].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[i+6]!=won[move/9])||won[move/9]==3)&&victoryCheck)) {
 						check=false;
 						break;
 					}
@@ -105,7 +105,7 @@ public class Logic {
 			check=true;
 			if((move%2==0&&move!=startGridPos&&!victoryCheck)||((move/9)%2==0&&move!=startGridPos&&victoryCheck)) {
 				for(int i=0;i<3;i++) 
-					if(((Main.btns[startGridPos+2+i*2].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[i*2+2]!=won[move/9])||won[move/9]==-1)&&victoryCheck)) {
+					if(((Main.btns[startGridPos+2+i*2].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[i*2+2]!=won[move/9])||won[move/9]==3)&&victoryCheck)) {
 						check=false;
 						break;
 					}
@@ -117,7 +117,7 @@ public class Logic {
 			check=true;
 			if((move%4==0&&!victoryCheck)||((move/9)%4==0&&victoryCheck)) {
 				for(int i=0;i<3;i++) 
-					if(((Main.btns[startGridPos+i*4].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[i*4]!=won[move/9])||won[move/9]==-1)&&victoryCheck)) {
+					if(((Main.btns[startGridPos+i*4].symbol!=Main.btns[move].symbol)&&!victoryCheck)||(((won[i*4]!=won[move/9])||won[move/9]==3)&&victoryCheck)) {
 						check=false;
 						break;
 					}

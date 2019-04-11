@@ -233,7 +233,7 @@ public class Main extends Application {
 				for(int i=0;i<81;i++)
 					btns[i].reset();
 				for(int i=0;i<9;i++) {
-					Logic.won[i]=-1;
+					Logic.won[i]=3;
 					gp[i].setStyle(null);
 				}
 				sgame.setDisable(false);
@@ -472,7 +472,7 @@ public class Main extends Application {
 				}
 				XOButton.lastTurnPlayed=XOButton.lastPlayed;
 				
-				if(Logic.won[XOButton.lastTurnPlayed/9]==-1) {
+				if(Logic.won[XOButton.lastTurnPlayed/9]==3) {
 					Logic.check(XOButton.lastTurnPlayed, false);
 					
 				}
