@@ -383,9 +383,9 @@ public class Main extends Application {
 		Separator sp=new Separator();
 		sp.setMinWidth(560);
 		Separator sp1 = new Separator();
-		sp1.setMinWidth(430);
+		sp1.setMinWidth(380);
 		sp1.setOpacity(0);		
-		turnlbl.setFont(Font.font(13)); 
+		turnlbl.setFont(Font.font(10)); 
 		
 		Text timer=new Text();
 		
