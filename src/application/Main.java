@@ -41,8 +41,8 @@ public class Main extends Application {
 	static Scene scene=new Scene(fp);
 	static Button end = new Button();
 	static GridPane mgp=new GridPane();
-	static GridPane sgp=new GridPane();
-	Scene scene1 =  new Scene(sgp,540,560);
+	//static GridPane sgp=new GridPane();
+	//Scene scene1 =  new Scene(sgp,540,560);
 	static XOButton btns[]=new XOButton[81];
 	@Override
 	public void start(Stage primaryStage) {
@@ -55,8 +55,8 @@ public class Main extends Application {
 		fp.setMaxSize(500, 600);
 		fp.setPadding(new Insets(0,0,0,0));
 		
-		sgp.setMaxSize(500, 600);
-		sgp.setPadding(new Insets(0,0,0,0));
+		//sgp.setMaxSize(500, 600);
+		//sgp.setPadding(new Insets(0,0,0,0));
 		
 		MenuBar mb=new MenuBar();
 		Menu fmenu=new Menu("File");
