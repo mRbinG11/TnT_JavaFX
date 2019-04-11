@@ -68,7 +68,7 @@ public class Main extends Application {
 		Scene v=new Scene(vic);
 		victory.setScene(v);
 		
-		turnlbl.setFont(new Font(20));
+		
 		turnlbl.setText("   X's Turn");
 		
 		sgp.setMaxSize(500, 600);
@@ -310,7 +310,7 @@ public class Main extends Application {
 				        
 				    	  }
 				    	  XOButton.lastTurnPlayed=(int)fis.read();
-				    	  turnlbl.setFont(new Font(20));
+				    	  
 				    	  XOButton.status=(byte)fis.read();
 				    	  switch(XOButton.status) {
 							case 1: turnlbl.setText("   X's Turn");
@@ -383,9 +383,9 @@ public class Main extends Application {
 		Separator sp=new Separator();
 		sp.setMinWidth(560);
 		Separator sp1 = new Separator();
-		sp1.setMinWidth(380);
+		sp1.setMinWidth(372);
 		sp1.setOpacity(0);		
-		turnlbl.setFont(Font.font(10)); 
+		turnlbl.setFont(Font.font(17));
 		
 		Text timer=new Text();
 		
@@ -463,7 +463,7 @@ public class Main extends Application {
 				
 				XOButton.status++;
 				XOButton.status%=2;
-				turnlbl.setFont(new Font(20));
+				
 				switch(XOButton.status) {
 				case 1: turnlbl.setText("   X's Turn");
 						break;
