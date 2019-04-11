@@ -2,12 +2,13 @@ package application;
 	
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-
 import javafx.application.Application;
-import javafx.event.ActionEvent;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
@@ -15,14 +16,21 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 /*import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.net.URL;*/
@@ -33,32 +41,36 @@ public class Main extends Application {
 	static Scene scene=new Scene(fp);
 	static Button end = new Button();
 	static GridPane mgp=new GridPane();
+	static GridPane sgp=new GridPane();
+	Scene scene1 =  new Scene(sgp,540,560);
 	static XOButton btns[]=new XOButton[81];
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("T 'n' T");
 		primaryStage.setResizable(false);
+		
 		Image icon=new Image(getClass().getResourceAsStream("/img/tic-tac-toe.png"));
 		primaryStage.getIcons().add(icon);
-		
-	/*	final URL resource = getClass().getResource("/application/Mahalo x DLMT - So Cold (feat. Lily Denning).mp3");
-	    final Media media = new Media(resource.toString());
-	    final MediaPlayer mediaPlayer = new MediaPlayer(media);
-	    mediaPlayer.play();*/
-	    
+
 		fp.setMaxSize(500, 600);
 		fp.setPadding(new Insets(0,0,0,0));
 		
+		sgp.setMaxSize(500, 600);
+		sgp.setPadding(new Insets(0,0,0,0));
+		
 		MenuBar mb=new MenuBar();
 		Menu fmenu=new Menu("File");
+		Menu helpmenu = new Menu("Help");
 		MenuItem ngame=new MenuItem("New Game");
 		MenuItem lgame=new MenuItem("Load Game");
 		MenuItem sgame=new MenuItem("Save Game");
 		MenuItem exit=new MenuItem("Exit");
+		MenuItem help = new MenuItem("Help");
 		
 		fmenu.getItems().addAll(ngame,lgame,sgame,new SeparatorMenuItem(),exit);
+		helpmenu.getItems().addAll(help);
 		mb.setMinWidth(560);
-		mb.getMenus().addAll(fmenu);
+		mb.getMenus().addAll(fmenu,helpmenu);
 		
 		
 		//mgp.setMaxSize(550, 600);
@@ -174,7 +186,48 @@ public class Main extends Application {
 				end.setDisable(true);
 			}	
 		});
+	/*	exit.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae) {
+				Platform.exit();
+			}	
+		});
 		
+		help.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae) {
+				sgp.setPrefSize(540, 560);
+				sgp.setPadding(new Insets(10,10,10,10));
+				sgp.setVgap(10);
+				sgp.setHgap(5);
+				Button back=new Button("BACK");
+				back.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent ae) {
+						primaryStage.setScene(scene);
+					}	
+				});
+
+				try {				    	
+					    TextArea text = new TextArea();
+				    	sgp.add(text, 0, 0,55,50);
+				    	text.setEditable(false);
+				    	BufferedReader  in = new BufferedReader(new FileReader("help.txt"));
+				    	String line = in.readLine();
+				    	while(line != null){
+				    	  text.appendText(line + "\n");
+				    	  text.setFont(Font.font(13));
+				    	  line = in.readLine();
+				    	}
+				    	in.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+				sgp.add(back, 50, 50);
+				primaryStage.setScene(scene1);
+                primaryStage.show();
+			}	
+		});*/
 		sgame.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae) {
 				FileOutputStream fos = null;
@@ -263,11 +316,13 @@ public class Main extends Application {
 		
 		Separator sp=new Separator();
 		sp.setMinWidth(560);
-		
+		/*Separator sp1 = new Separator();
+		sp1.setMinWidth(430);
+		sp1.setOpacity(0);		
+		turnlbl.setFont(Font.font(13)); */
 		
 		Text timer=new Text();
-		
-		fp.getChildren().addAll(mb,mgp,sp,turnlbl,timer,end);
+		fp.getChildren().addAll(mb,mgp,sp,timer,turnlbl,/*sp1,*/ end );
 		
 		for(int i=0;i<81;i++) {
 			final int temp=new Integer(i);
