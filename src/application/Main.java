@@ -19,6 +19,10 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 /*import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.net.URL;*/
@@ -27,6 +31,9 @@ public class Main extends Application {
 	static Text turnlbl=new Text("X's Turn");
 	static FlowPane fp=new FlowPane();
 	static Scene scene=new Scene(fp);
+	static Button end = new Button();
+	static GridPane mgp=new GridPane();
+	static XOButton btns[]=new XOButton[81];
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("T 'n' T");
@@ -53,7 +60,7 @@ public class Main extends Application {
 		mb.setMinWidth(560);
 		mb.getMenus().addAll(fmenu);
 		
-		GridPane mgp=new GridPane();
+		
 		//mgp.setMaxSize(550, 600);
 		mgp.setPrefSize(540, 560);
 		mgp.setPadding(new Insets(10,10,10,10));
@@ -115,7 +122,7 @@ public class Main extends Application {
         gp9.setHgap(5);
         gp9.setAlignment(Pos.CENTER);
 		
-		XOButton btns[]=new XOButton[81];
+		
 		int t=0;
 		
 		for(;t<81;)
@@ -151,7 +158,7 @@ public class Main extends Application {
 					}
 			}
 		
-		Button end = new Button();
+		
 		end.setText("End Turn");
 	    end.setDefaultButton(true);
 	    end.setDisable(true);
@@ -165,6 +172,82 @@ public class Main extends Application {
 				XOButton.lastPlayed=XOButton.lastTurnPlayed=-1;
 				mgp.requestFocus();
 				end.setDisable(true);
+			}	
+		});
+		
+		sgame.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae) {
+				FileOutputStream fos = null;
+			    File file;
+			      
+			      try {
+			          //Specify the file path here
+				  file = new File("save.txt");
+				  fos = new FileOutputStream(file);
+				  if (!file.exists()) {
+				     file.createNewFile();
+				  }
+				  
+				  for(int t=0;t<81;t++) {
+					  if(t!=XOButton.lastPlayed) {
+						  	fos.write(btns[t].symbol);
+						  	fos.flush();
+					  }
+				  }
+				  fos.write((char)XOButton.lastTurnPlayed);
+				  fos.flush();
+				  fos.write((char)XOButton.status);
+				  fos.flush();
+			       } 
+			       catch (IOException ioe) {
+				  ioe.printStackTrace();
+			       }
+			}
+		});
+		
+		lgame.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae) {
+				try {
+					for(int i=0;i<81;i++)
+						btns[i].reset();
+				      FileInputStream fis = new FileInputStream("save.txt");
+				      char current;
+				      while (fis.available() > 0) {
+				    	  for(int t=0;t<81;t++) {
+				    		  current = (char) fis.read();
+				    		  if(current=='x') {
+				    			  btns[t].setGraphic(btns[t].Xiv);
+				    			  btns[t].fixed=true;
+				    			  btns[t].symbol='x';
+				    		  }
+				    		  else if(current=='o') {
+				    			  btns[t].setGraphic(btns[t].Oiv);
+				    			  btns[t].fixed=true;
+				    			  btns[t].symbol='o';
+				    		  }
+				    		  else
+				    			  btns[t].setGraphic(null);
+				        
+				    	  }
+				    	  XOButton.lastTurnPlayed=(int)fis.read();
+				    	  XOButton.status=(byte)fis.read();
+				    	  
+				    	 // fis.close();
+							
+				       }
+				      for(int k=(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9;k<((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9;k++)
+							btns[k].setStyle("-fx-background-color: green;");
+						
+						for(int k=0;k<81;k++)
+							if((k<(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9||k>=((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9))
+								btns[k].disable=true;
+							else 
+								btns[k].disable=false;
+						btns[XOButton.lastTurnPlayed].requestFocus();
+				    } catch (IOException e) {
+				      e.printStackTrace();
+				    }
+				
 			}
 		});
 		

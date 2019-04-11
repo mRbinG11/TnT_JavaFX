@@ -20,7 +20,7 @@ public class XOButton extends Button {
 	static int lastTurnPlayed=-1;
 	static byte status=1;
 	boolean fixed =false;
-	char symbol;
+	char symbol=' ';
 	boolean disable=false;
 	
 	public XOButton() {
