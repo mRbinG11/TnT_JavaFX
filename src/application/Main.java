@@ -2,13 +2,12 @@ package application;
 	
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+
 import javafx.application.Application;
-import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
@@ -30,48 +29,66 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 /*import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.net.URL;*/
 
 public class Main extends Application {
-	static Text turnlbl=new Text("X's Turn");
+	static Text turnlbl=new Text();
 	static FlowPane fp=new FlowPane();
 	static Scene scene=new Scene(fp);
+	static Stage victory = new Stage();
+	static MenuItem sgame=new MenuItem("Save Game");
+	static GridPane sgp=new GridPane();
+	Scene scene1 =  new Scene(sgp,540,560);
+	static Text victoryLabel = new Text();
 	static Button end = new Button();
+	static GridPane gp[]=new GridPane[9];
 	static GridPane mgp=new GridPane();
-	//static GridPane sgp=new GridPane();
-	//Scene scene1 =  new Scene(sgp,540,560);
 	static XOButton btns[]=new XOButton[81];
+	
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("T 'n' T");
 		primaryStage.setResizable(false);
-		
 		Image icon=new Image(getClass().getResourceAsStream("/img/tic-tac-toe.png"));
 		primaryStage.getIcons().add(icon);
-
+		
+	/*	final URL resource = getClass().getResource("/application/Mahalo x DLMT - So Cold (feat. Lily Denning).mp3");
+	    final Media media = new Media(resource.toString());
+	    final MediaPlayer mediaPlayer = new MediaPlayer(media);
+	    mediaPlayer.play();*/
+		victory.setTitle("VICTORY!");
+		victory.setResizable(false);
+		FlowPane vic=new FlowPane();
+		vic.setMinSize(300, 100);
+		victoryLabel.setFont(new Font(30));
+		vic.setAlignment(Pos.CENTER);
+		vic.getChildren().add(victoryLabel);
+		Scene v=new Scene(vic);
+		victory.setScene(v);
+		
+		turnlbl.setFont(new Font(20));
+		turnlbl.setText("   X's Turn");
+		
+		sgp.setMaxSize(500, 600);
+		sgp.setPadding(new Insets(0,0,0,0));
+		
 		fp.setMaxSize(500, 600);
 		fp.setPadding(new Insets(0,0,0,0));
-		
-		//sgp.setMaxSize(500, 600);
-		//sgp.setPadding(new Insets(0,0,0,0));
 		
 		MenuBar mb=new MenuBar();
 		Menu fmenu=new Menu("File");
 		Menu helpmenu = new Menu("Help");
 		MenuItem ngame=new MenuItem("New Game");
 		MenuItem lgame=new MenuItem("Load Game");
-		MenuItem sgame=new MenuItem("Save Game");
+		MenuItem help = new MenuItem("Instructions");
 		MenuItem exit=new MenuItem("Exit");
-		MenuItem help = new MenuItem("Help");
 		
 		fmenu.getItems().addAll(ngame,lgame,sgame,new SeparatorMenuItem(),exit);
-		helpmenu.getItems().addAll(help);
 		mb.setMinWidth(560);
+		helpmenu.getItems().addAll(help);
 		mb.getMenus().addAll(fmenu,helpmenu);
-		
 		
 		//mgp.setMaxSize(550, 600);
 		mgp.setPrefSize(540, 560);
@@ -80,59 +97,59 @@ public class Main extends Application {
         mgp.setHgap(10);
         mgp.setAlignment(Pos.CENTER);
 		
-		GridPane gp1=new GridPane();
-		gp1.setMinSize(170, 170);
-        gp1.setVgap(5);
-        gp1.setHgap(5);
-        gp1.setAlignment(Pos.CENTER);
+		gp[0] = new GridPane();
+		gp[0].setMinSize(170, 170);
+        gp[0].setVgap(5);
+        gp[0].setHgap(5);
+        gp[0].setAlignment(Pos.CENTER);
         
-        GridPane gp2=new GridPane();
-		gp2.setMinSize(170, 170);
-        gp2.setVgap(5);
-        gp2.setHgap(5);
-        gp2.setAlignment(Pos.CENTER);
+        gp[1] = new GridPane();
+		gp[1].setMinSize(170, 170);
+        gp[1].setVgap(5);
+        gp[1].setHgap(5);
+        gp[1].setAlignment(Pos.CENTER);
         
-        GridPane gp3=new GridPane();
-		gp3.setMinSize(170, 170);
-        gp3.setVgap(5);
-        gp3.setHgap(5);
-        gp3.setAlignment(Pos.CENTER);
+        gp[2] = new GridPane();
+		gp[2].setMinSize(170, 170);
+        gp[2].setVgap(5);
+        gp[2].setHgap(5);
+        gp[2].setAlignment(Pos.CENTER);
         
-        GridPane gp4=new GridPane();
-		gp4.setMinSize(170, 170);
-        gp4.setVgap(5);
-        gp4.setHgap(5);
-        gp4.setAlignment(Pos.CENTER);
+        gp[3] = new GridPane();
+		gp[3].setMinSize(170, 170);
+        gp[3].setVgap(5);
+        gp[3].setHgap(5);
+        gp[3].setAlignment(Pos.CENTER);
         
-        GridPane gp5=new GridPane();
-		gp5.setMinSize(170, 170);
-        gp5.setVgap(5);
-        gp5.setHgap(5);
-        gp5.setAlignment(Pos.CENTER);
+        gp[4] = new GridPane();
+		gp[4].setMinSize(170, 170);
+        gp[4].setVgap(5);
+        gp[4].setHgap(5);
+        gp[4].setAlignment(Pos.CENTER);
         
-        GridPane gp6=new GridPane();
-		gp6.setMinSize(170, 170);
-        gp6.setVgap(5);
-        gp6.setHgap(5);
-        gp6.setAlignment(Pos.CENTER);
+        gp[5] = new GridPane();
+		gp[5].setMinSize(170, 170);
+        gp[5].setVgap(5);
+        gp[5].setHgap(5);
+        gp[5].setAlignment(Pos.CENTER);
         
-        GridPane gp7=new GridPane();
-		gp7.setMinSize(170, 170);
-        gp7.setVgap(5);
-        gp7.setHgap(5);
-        gp7.setAlignment(Pos.CENTER);
+        gp[6] = new GridPane();
+		gp[6].setMinSize(170, 170);
+        gp[6].setVgap(5);
+        gp[6].setHgap(5);
+        gp[6].setAlignment(Pos.CENTER);
         
-        GridPane gp8=new GridPane();
-		gp8.setMinSize(170, 170);
-        gp8.setVgap(5);
-        gp8.setHgap(5);
-        gp8.setAlignment(Pos.CENTER);
+        gp[7] = new GridPane();
+		gp[7].setMinSize(170, 170);
+        gp[7].setVgap(5);
+        gp[7].setHgap(5);
+        gp[7].setAlignment(Pos.CENTER);
         
-        GridPane gp9=new GridPane();
-		gp9.setMinSize(170, 170);
-        gp9.setVgap(5);
-        gp9.setHgap(5);
-        gp9.setAlignment(Pos.CENTER);
+        gp[8] = new GridPane();
+		gp[8].setMinSize(170, 170);
+        gp[8].setVgap(5);
+        gp[8].setHgap(5);
+        gp[8].setAlignment(Pos.CENTER);
 		
 		
 		int t=0;
@@ -142,57 +159,40 @@ public class Main extends Application {
 				for (int j = 0; j < 3; j++) {
 					if(t<9) {
 						btns[t]=new XOButton();
-						gp1.add(btns[t++], j, i);
+						gp[0].add(btns[t++], j, i);
 					}else if(t>8&&t<18) {
 						btns[t]=new XOButton();
-						gp2.add(btns[t++], j, i);
+						gp[1].add(btns[t++], j, i);
 					}else if(t>17&&t<27) {
 						btns[t]=new XOButton();
-						gp3.add(btns[t++], j, i);
+						gp[2].add(btns[t++], j, i);
 					}else if(t>26&&t<36) {
 						btns[t]=new XOButton();
-						gp4.add(btns[t++], j, i);
+						gp[3].add(btns[t++], j, i);
 					}else if(t>35&&t<45) {
 						btns[t]=new XOButton();
-						gp5.add(btns[t++], j, i);
+						gp[4].add(btns[t++], j, i);
 					}else if(t>44&&t<54) {
 						btns[t]=new XOButton();
-						gp6.add(btns[t++], j, i);
+						gp[5].add(btns[t++], j, i);
 					}else if(t>53&&t<63) {
 						btns[t]=new XOButton();
-						gp7.add(btns[t++], j, i);
+						gp[6].add(btns[t++], j, i);
 					}else if(t>62&&t<72) {
 						btns[t]=new XOButton();
-						gp8.add(btns[t++], j, i);
+						gp[7].add(btns[t++], j, i);
 					}else if(t>71&&t<81) {
 						btns[t]=new XOButton();
-						gp9.add(btns[t++], j, i);
+						gp[8].add(btns[t++], j, i);
 					}
 			}
-		
 		
 		end.setText("End Turn");
 	    end.setDefaultButton(true);
 	    end.setDisable(true);
+	    Logic.set();
 	    
-		ngame.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent ae) {
-				for(int i=0;i<81;i++)
-					btns[i].reset();
-				XOButton.status=1;
-				XOButton.game=false;
-				XOButton.lastPlayed=XOButton.lastTurnPlayed=-1;
-				mgp.requestFocus();
-				end.setDisable(true);
-			}	
-		});
-	/*	exit.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent ae) {
-				Platform.exit();
-			}	
-		});
-		
-		help.setOnAction(new EventHandler<ActionEvent>() {
+	    help.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae) {
 				sgp.setPrefSize(540, 560);
 				sgp.setPadding(new Insets(10,10,10,10));
@@ -204,7 +204,6 @@ public class Main extends Application {
 						primaryStage.setScene(scene);
 					}	
 				});
-
 				try {				    	
 					    TextArea text = new TextArea();
 				    	sgp.add(text, 0, 0,55,50);
@@ -227,7 +226,25 @@ public class Main extends Application {
 				primaryStage.setScene(scene1);
                 primaryStage.show();
 			}	
-		});*/
+		});
+		
+		ngame.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae) {
+				for(int i=0;i<81;i++)
+					btns[i].reset();
+				for(int i=0;i<9;i++) {
+					Logic.won[i]=-1;
+					gp[i].setStyle(null);
+				}
+				sgame.setDisable(false);
+				XOButton.status=1;
+				XOButton.game=false;
+				XOButton.lastPlayed=XOButton.lastTurnPlayed=-1;
+				mgp.requestFocus();
+				end.setDisable(true);
+			}	
+		});
+		
 		sgame.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae) {
 				FileOutputStream fos = null;
@@ -246,11 +263,21 @@ public class Main extends Application {
 						  	fos.write(btns[t].symbol);
 						  	fos.flush();
 					  }
+					  else {
+						  fos.write(' ');
+						  fos.flush();
+					  }
+					 
 				  }
 				  fos.write((char)XOButton.lastTurnPlayed);
 				  fos.flush();
 				  fos.write((char)XOButton.status);
 				  fos.flush();
+				  for(int i=0;i<9;i++) {
+					  fos.write((char)Logic.won[i]);
+					  fos.flush();
+				  }
+					  
 			       } 
 			       catch (IOException ioe) {
 				  ioe.printStackTrace();
@@ -268,35 +295,67 @@ public class Main extends Application {
 				      while (fis.available() > 0) {
 				    	  for(int t=0;t<81;t++) {
 				    		  current = (char) fis.read();
-				    		  if(current=='x') {
+				    		  if(current=='X') {
 				    			  btns[t].setGraphic(btns[t].Xiv);
 				    			  btns[t].fixed=true;
-				    			  btns[t].symbol='x';
+				    			  btns[t].symbol='X';
 				    		  }
-				    		  else if(current=='o') {
+				    		  else if(current=='O') {
 				    			  btns[t].setGraphic(btns[t].Oiv);
 				    			  btns[t].fixed=true;
-				    			  btns[t].symbol='o';
+				    			  btns[t].symbol='O';
 				    		  }
-				    		  else
-				    			  btns[t].setGraphic(null);
+				    		  else btns[t].setGraphic(null);
+				    		
 				        
 				    	  }
 				    	  XOButton.lastTurnPlayed=(int)fis.read();
+				    	  turnlbl.setFont(new Font(20));
 				    	  XOButton.status=(byte)fis.read();
+				    	  switch(XOButton.status) {
+							case 1: turnlbl.setText("   X's Turn");
+									break;
+							case 0: turnlbl.setText("   O's Turn");
+									break;
+							}
 				    	  
-				    	 // fis.close();
+				    	  for(int i=0;i<9;i++)
+				    		  Logic.won[i]=(int)fis.read();
+				    	 
 							
 				       }
-				      for(int k=(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9;k<((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9;k++)
-							btns[k].setStyle("-fx-background-color: green;");
+				      
 						
+				      boolean filled=true;
+						for(int k=((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9);k<((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9;k++)
+							if(!btns[k].fixed) {
+								filled = false;
+								break;
+							}
+						if(filled) {
+							for(int i=0;i<81;i++)
+								if(!btns[i].fixed)
+									btns[i].disable=false;	
+								else
+									btns[i].disable=true;
+						}
+						else {
+							for(int k=0;k<81;k++)
+								if((k<(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9||k>=((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9))
+									btns[k].disable=true;
+								else 
+									btns[k].disable=false;
+						}
 						for(int k=0;k<81;k++)
-							if((k<(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9||k>=((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9))
-								btns[k].disable=true;
-							else 
-								btns[k].disable=false;
+							if(btns[k].disable||btns[k].fixed)	btns[k].setStyle(null);
+							else if(!btns[k].fixed)	btns[k].setStyle("-fx-background-color: green;");
+						
+						for(int k=0;k<9;k++)
+							if(Logic.won[k]==0)	gp[k].setStyle("-fx-background-color: yellow;");
+							else if(Logic.won[k]==1)	gp[k].setStyle("-fx-background-color: cyan;");
+						
 						btns[XOButton.lastTurnPlayed].requestFocus();
+						fis.close();
 				    } catch (IOException e) {
 				      e.printStackTrace();
 				    }
@@ -304,25 +363,33 @@ public class Main extends Application {
 			}
 		});
 		
-		mgp.add(gp1, 0, 0);
-		mgp.add(gp2, 1, 0);
-		mgp.add(gp3, 2, 0);
-		mgp.add(gp4, 0, 1);
-		mgp.add(gp5, 1, 1);
-		mgp.add(gp6, 2, 1);
-		mgp.add(gp7, 0, 2);
-		mgp.add(gp8, 1, 2);
-		mgp.add(gp9, 2, 2);
+		exit.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae) {
+				primaryStage.close();
+				
+			}
+		});
+		
+		mgp.add(gp[0], 0, 0);
+		mgp.add(gp[1], 1, 0);
+		mgp.add(gp[2], 2, 0);
+		mgp.add(gp[3], 0, 1);
+		mgp.add(gp[4], 1, 1);
+		mgp.add(gp[5], 2, 1);
+		mgp.add(gp[6], 0, 2);
+		mgp.add(gp[7], 1, 2);
+		mgp.add(gp[8], 2, 2);
 		
 		Separator sp=new Separator();
 		sp.setMinWidth(560);
-		/*Separator sp1 = new Separator();
+		Separator sp1 = new Separator();
 		sp1.setMinWidth(430);
 		sp1.setOpacity(0);		
-		turnlbl.setFont(Font.font(13)); */
+		turnlbl.setFont(Font.font(13)); 
 		
 		Text timer=new Text();
-		fp.getChildren().addAll(mb,mgp,sp,timer,turnlbl,/*sp1,*/ end );
+		
+		fp.getChildren().addAll(mb,mgp,sp,turnlbl,timer,sp1,end);
 		
 		for(int i=0;i<81;i++) {
 			final int temp=new Integer(i);
@@ -335,29 +402,40 @@ public class Main extends Application {
 						end.setDisable(false);
 						
 						if(XOButton.lastPlayed!=-1) {
-							for(int k=(XOButton.lastPlayed-(XOButton.lastPlayed/9)*9)*9;k<(XOButton.lastPlayed-(XOButton.lastPlayed/9)*9)*9+9;k++)
-								btns[k].setStyle(null);
 							btns[XOButton.lastPlayed].symbol=' ';
 							btns[XOButton.lastPlayed].setGraphic(null);
+							for(int k=0;k<81;k++)
+								btns[k].setStyle(null);
 						}
 						
 						if(XOButton.lastTurnPlayed!=-1)
-							for(int k=(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9;k<((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9;k++)
-								btns[k].setStyle("-fx-background-color: green;");
+							for(int k=0;k<81;k++)
+								if(!btns[k].fixed&&!btns[k].disable)	btns[k].setStyle("-fx-background-color: green;");
 						
 							
-							
-						for(int k=(temp-(temp/9)*9)*9;k<((temp-(temp/9)*9)*9)+9;k++)
-							btns[k].setStyle("-fx-background-color: red;");
-						
-						
+						boolean filled=true;
+						for(int k=((temp-(temp/9)*9)*9);k<((temp-(temp/9)*9)*9)+9;k++)
+							if(!btns[k].fixed) {
+								filled = false;
+								break;
+							}
+						if(filled) {
+							for(int i=0;i<81;i++)
+								if(!btns[i].fixed)
+									btns[i].setStyle("-fx-background-color: red;");
+						}
+						else {
+							for(int k=(temp-(temp/9)*9)*9;k<((temp-(temp/9)*9)*9)+9;k++)
+								if(!btns[k].fixed&&k!=temp)	btns[k].setStyle("-fx-background-color: red;");
+						}		
+						btns[temp].setStyle(null);
 						
 						switch(XOButton.status) {
 						case 1: btns[temp].setGraphic(btns[temp].Xiv); 
-								btns[temp].symbol='x';
+								btns[temp].symbol='X';
 								break;
 						case 0: btns[temp].setGraphic(btns[temp].Oiv);
-								btns[temp].symbol='o';
+								btns[temp].symbol='O';
 								break;
 						}
 						XOButton.lastPlayed=temp;
@@ -365,6 +443,14 @@ public class Main extends Application {
 								
 							
 							
+					}
+					else {
+						if(XOButton.lastPlayed!=-1)
+							btns[XOButton.lastPlayed].requestFocus();
+						else
+							btns[XOButton.lastTurnPlayed].requestFocus();
+					
+						
 					}
 					
 					
@@ -374,28 +460,52 @@ public class Main extends Application {
 		end.setAlignment(Pos.CENTER_RIGHT);
 		end.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae) {
+				
 				XOButton.status++;
 				XOButton.status%=2;
+				turnlbl.setFont(new Font(20));
 				switch(XOButton.status) {
-				case 1: turnlbl.setText("X's Turn");
+				case 1: turnlbl.setText("   X's Turn");
 						break;
-				case 0: turnlbl.setText("O's Turn");
+				case 0: turnlbl.setText("   O's Turn");
 						break;
 				}
 				XOButton.lastTurnPlayed=XOButton.lastPlayed;
+				
+				if(Logic.won[XOButton.lastTurnPlayed/9]==-1) {
+					Logic.check(XOButton.lastTurnPlayed, false);
+					
+				}
+				Logic.check(XOButton.lastTurnPlayed, true);
+				
 				btns[XOButton.lastTurnPlayed].fixed=true;
 				
-				for(int k=(XOButton.lastTurnPlayed/9)*9;k<((XOButton.lastTurnPlayed/9)*9)+9;k++)
-					btns[k].setStyle(null);
-				for(int k=(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9;k<((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9;k++)
-					btns[k].setStyle("-fx-background-color: green;");
+				
+				
+				boolean filled=true;
+				for(int k=((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9);k<((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9;k++)
+					if(!btns[k].fixed) {
+						filled = false;
+						break;
+					}
+				if(filled) {
+					for(int i=0;i<81;i++)
+						if(!btns[i].fixed)
+							btns[i].disable=false;	
+						else
+							btns[i].disable=true;
+				}
+				else {
+					for(int k=0;k<81;k++)
+						if((k<(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9||k>=((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9))
+							btns[k].disable=true;
+						else 
+							btns[k].disable=false;
+				}
 				
 				for(int k=0;k<81;k++)
-					if((k<(XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9||k>=((XOButton.lastTurnPlayed-(XOButton.lastTurnPlayed/9)*9)*9)+9))
-						btns[k].disable=true;
-					else 
-						btns[k].disable=false;
-					
+					if(btns[k].disable||btns[k].fixed)	btns[k].setStyle(null);
+					else if(!btns[k].fixed)	btns[k].setStyle("-fx-background-color: green;");
 				
 				end.setDisable(true);
 				XOButton.game=true;
