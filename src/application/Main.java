@@ -40,7 +40,7 @@ public class Main extends Application {
 	static Stage victory = new Stage();
 	static MenuItem sgame=new MenuItem("Save Game");
 	static GridPane sgp=new GridPane();
-	Scene scene1 =  new Scene(sgp,540,560);
+	Scene scene1 =  new Scene(sgp,540,600);
 	static Text victoryLabel = new Text();
 	static Button end = new Button();
 	static GridPane gp[]=new GridPane[9];
@@ -71,10 +71,10 @@ public class Main extends Application {
 		
 		turnlbl.setText("   X's Turn");
 		
-		sgp.setMaxSize(500, 600);
+		sgp.setMaxSize(510, 600);
 		sgp.setPadding(new Insets(0,0,0,0));
 		
-		fp.setMaxSize(500, 600);
+		fp.setMaxSize(510, 600);
 		fp.setPadding(new Insets(0,0,0,0));
 		
 		MenuBar mb=new MenuBar();
@@ -461,6 +461,14 @@ public class Main extends Application {
 		end.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae) {
 				
+				int j;
+				for(j=0;j<81;j++)
+					if(!btns[j].fixed)
+						break;
+				if(j==81) {
+					Logic.full=true;
+					Logic.result(XOButton.lastTurnPlayed, true);
+				}
 				XOButton.status++;
 				XOButton.status%=2;
 				

@@ -4,7 +4,7 @@ package application;
 
 public class Logic {
 	static int won[]=new int[9];
-	
+	static boolean full=false;
 	static void set() {
 		for(int i=0;i<9;i++)
 			won[i]=3;
@@ -14,7 +14,18 @@ public class Logic {
 			for(int i=0;i<81;i++)
 				Main.btns[i].fixed=true;
 			Main.end.setDisable(true);
-			Main.victoryLabel.setText(Main.btns[XOButton.lastTurnPlayed].symbol+" Wins!");
+			if(!full)
+				Main.victoryLabel.setText(Main.btns[XOButton.lastTurnPlayed].symbol+" Wins!");
+			else {
+				int sumX=0,sumY=0;
+				for(int i=0;i<9;i++) {
+					if(won[i]==0)	sumX++;
+					else if(won[i]==1)	sumY++;
+				}
+				if(sumX>sumY)	Main.victoryLabel.setText("X Wins!");
+				else if(sumY>sumX)	Main.victoryLabel.setText("Y Wins!");
+				else	Main.victoryLabel.setText("It's a Draw!");
+			}
 			Main.victory.show();
 			Main.sgame.setDisable(true);
 		}
